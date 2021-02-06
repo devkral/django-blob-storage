@@ -32,8 +32,8 @@ This is a custom storage backend for storing files in the database instead of th
 Requirements
 ------------
 
-* Python (2.7, 3.4, 3.5)
-* Django (1.8, 1.9)
+* Python (3.5+)
+* Django (1.11.17+)
 
 Installation
 ------------
