@@ -5,7 +5,7 @@ from setuptools import setup
 setup(
     name='django-db-storage',
     version='2.0.0',
-    url='https://github.com/derekkwok/django-db-storage',
+    url='https://github.com/hitman711/django-db-storage',
     license='BSD',
     author='Siddhesh Gore',
     author_email='sidh711@gmail.com',
