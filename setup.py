@@ -10,6 +10,8 @@ setup(
     author='Siddhesh Gore',
     author_email='sidh711@gmail.com',
     description='Custom Database Storage for Django',
+    long_description_content_type="text/markdown",
+    long_description=open('README.md').read(),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
