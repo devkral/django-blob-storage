@@ -1,4 +1,4 @@
-django-db-storage
+django-db-storage2
 =================
 
 .. image:: https://travis-ci.org/derekkwok/django-db-storage.svg?branch=master
@@ -40,7 +40,7 @@ Installation
 
 Installation using pip::
 
-    $ pip install django-db-storage
+    $ pip install django-db-storage2
 
 Update ``settings.py``
 
