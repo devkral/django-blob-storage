@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.template.defaultfilters import filesizeformat
 from django.urls import reverse
+from django.utils.html import mark_safe
 
 from dbstorage.forms import DBFileForm
 from dbstorage.models import DBFile
@@ -16,7 +17,7 @@ class DBFileAdmin(admin.ModelAdmin):
 
     def download(self, obj):
         href = reverse('db_file', args=[obj.name])
-        return '<a href="{}" target="_blank">Download</a>'.format(href)
+        return mark_safe('<a href="{}" target="_blank">Download</a>'.format(href))
     download.allow_tags = True
     download.short_description = ''
 
