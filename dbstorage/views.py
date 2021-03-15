@@ -13,6 +13,8 @@ from dbstorage.models import DBFile
 class DBFileView(View):
 
     def get(self, request, name):
+        """ Endpoint to return memory storage file
+        """
         db_file = get_object_or_404(DBFile.objects.defer('content'), name=name)
 
         mtime = time.mktime(db_file.updated_on.timetuple())
@@ -27,7 +29,7 @@ class DBFileView(View):
         content_type, encoding = mimetypes.guess_type(db_file.name)
         content_type = content_type or 'application/octet-stream'
 
-        response = HttpResponse(db_file.content, content_type=content_type)
+        response = HttpResponse(bytes(db_file.content), content_type=content_type)
         response['Last-Modified'] = http_date(mtime)
         response['Content-Length'] = db_file.size
         if encoding:

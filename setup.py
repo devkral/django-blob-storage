@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='django-db-storage2',
-    version='2.0.2',
+    version='2.0.2.2',
     url='https://github.com/hitman711/django-db-storage',
     license='BSD',
     author='Siddhesh Gore',
@@ -22,6 +22,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
