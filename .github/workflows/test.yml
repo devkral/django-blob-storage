@@ -1,4 +1,4 @@
-name: django-fast-ratelimit
+name: django-blob-storage
 
 on: [push]
 
