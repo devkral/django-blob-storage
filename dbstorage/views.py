@@ -1,13 +1,13 @@
 import mimetypes
 import time
 
+from django.conf import settings
+from django.db.models.functions import Now
 from django.http.response import FileResponse, HttpResponseNotModified
 from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
 from django.views.generic.base import View
 from django.views.static import was_modified_since
-from django.utils import timezone
-from django.conf import settings
 
 from dbstorage.models import DBFile
 
@@ -18,7 +18,7 @@ class DBFileView(View):
         db_file_query = DBFile.objects.defer("content").filter(name=name)
         db_file = get_object_or_404(db_file_query)
         if getattr(settings, "DJANGO_DBFILE_TRACK_ACCESSED", False):
-            db_file_query.update(accessed_on=timezone.now())
+            db_file_query.update(accessed_on=Now())
 
         mtime = time.mktime(db_file.updated_on.timetuple())
         modified = was_modified_since(
