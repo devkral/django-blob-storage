@@ -38,7 +38,10 @@ Update `settings.py`
     # Optionally set DEFAULT_FILE_STORAGE
     DEFAULT_FILE_STORAGE = 'dbstorage.storage.DBStorage'
 
-    # Optionally set  DJANGO_DBFILE_TRACK_ACCESSED=True to track accessed times
+    # Optionally for tracking file accesses (currently over view)
+    # DJANGO_DBFILE_TRACK_ACCESSED=True
+    # Optionally set another db than default
+    # DJANGO_DBFILE_DB = "foo"
 
     # Choose a root url for uploaded files
     MEDIA_URL = '/media/'

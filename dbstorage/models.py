@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.db.models.functions import Length
+from django.conf import settings
 
 
 class DBFileManager(models.Manager):
@@ -16,6 +17,8 @@ class DBFile(models.Model):
     accessed_on = models.DateTimeField(default=timezone.now)
 
     objects = DBFileManager()
+    if getattr(settings, "DJANGO_DBFILE_DB", "default") != "default":
+        objects = objects.db_manager(getattr(settings, "DJANGO_DBFILE_DB"))
 
     # size is now a virtual field
 
