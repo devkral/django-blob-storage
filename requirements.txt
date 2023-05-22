@@ -1,6 +1,0 @@
-Django>=1.11.17
-
-pip
-setuptools
-twine
-wheel

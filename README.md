@@ -1,50 +1,34 @@
-django-db-storage2
-=================
+# django-blob-storage
 
-.. image:: https://travis-ci.org/derekkwok/django-db-storage.svg?branch=master
-    :target: https://travis-ci.org/derekkwok/django-db-storage
+This is a fork from django-db-storage2
 
-.. image:: https://coveralls.io/repos/github/derekkwok/django-db-storage/badge.svg?branch=master 
-    :target: https://coveralls.io/github/derekkwok/django-db-storage?branch=master
+## Overview
 
-.. image:: https://badge.fury.io/py/django-db-storage.svg
-    :target: https://badge.fury.io/py/django-db-storage
+Warning: In many cases, storing files in the database is a BAD idea. Your database will easily become bloated and the performance can degrade rapidly. See this `StackExchange post`\_ for more information.
 
-Overview
---------
-
-Warning: In many cases, storing files in the database is a BAD idea. Your database will easily become bloated and the performance can degrade rapidly. See this `StackExchange post`_ for more information.
-
-.. _StackExchange post: http://programmers.stackexchange.com/questions/150669/is-it-a-bad-practice-to-store-large-files-10-mb-in-a-database
+.. \_StackExchange post: http://programmers.stackexchange.com/questions/150669/is-it-a-bad-practice-to-store-large-files-10-mb-in-a-database
 
 This is a custom storage backend for storing files in the database instead of the file system and is a drop-in replacement for Django's FileSystemStorage. Some benefits of this application:
 
-* no changes needed to existing models, it just works (and if it doesn't, open a ticket!)
-* django-admin is implemented and can be used to search, upload, download and manage files
-* 100% code coverage with unit tests
+-   no changes needed to existing models, it just works (and if it doesn't, open a ticket!)
+-   django-admin is implemented and can be used to search, upload, download and manage files
+-   100% code coverage with unit tests
+-   only db files need to be backed up
 
-.. image:: http://i.imgur.com/4g9tmEZt.png
-    :target: http://i.imgur.com/4g9tmEZ.png
+## Requirements
 
-.. image:: http://i.imgur.com/A2F8xlrt.png
-    :target: http://i.imgur.com/A2F8xlr.png
+-   Python (3.5+)
+-   Django (3.2+)
 
-Requirements
-------------
-
-* Python (3.5+)
-* Django (1.11.17+)
-
-Installation
-------------
+## Installation
 
 Installation using pip::
 
-    $ pip install django-db-storage2
+    $ pip install django-blob-storage
 
-Update ``settings.py``
+Update `settings.py`
 
-.. code-block:: python
+```python
 
     # Add 'dbstorage' to INSTALLED_APPS
     INSTALLED_APPS = [
@@ -54,42 +38,48 @@ Update ``settings.py``
     # Optionally set DEFAULT_FILE_STORAGE
     DEFAULT_FILE_STORAGE = 'dbstorage.storage.DBStorage'
 
+    # Optionally set  DJANGO_DBFILE_TRACK_ACCESSED=True to track accessed times
+
     # Choose a root url for uploaded files
     MEDIA_URL = '/media/'
+```
 
-Update ``urls.py``
+Update `urls.py`
 
-.. code-block:: python
+```python
 
     urlpatterns = [
         ...
-        dbstorage_url(),
+        # dbstorage
+        path("", include("dbstorage.urls")),
     ]
+```
 
-Run database migrations
+Run database migrations (done automatically, when included as app)
 
-::
+```sh
 
-    $ python manage.py migrate
+env DJANGO_SETTINGS_MODULE=tests.settings PYTHONPATH="." poetry run django-admin migrate
 
 
-How to Use
-----------
+```
+
+## How to Use
 
 No modification are needed for models to work properly.
 
-.. code-block:: python
+```python
 
-    def user_directory_path(instance, filename):
-        return 'user_{0}/{1}'.format(instance.user.id, filename)
+def user_directory_path(instance, filename):
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
 
-    class MyModel(models.Model):
+class MyModel(models.Model):
 
-        file_field1 = models.FileField()
-        file_field2 = models.FileField(upload_to='uploads/%Y/%m/%d/')
-        file_field3 = models.FileField(upload_to=user_directory_path)
+    file_field1 = models.FileField()
+    file_field2 = models.FileField(upload_to='uploads/%Y/%m/%d/')
+    file_field3 = models.FileField(upload_to=user_directory_path)
+```
 
-Bugs?
------
+## Bugs?
 
-Create an issue at https://github.com/derekkwok/django-db-storage/issues
+Create an issue at https://github.com/devkral/django-blob-storage/issues

@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "django-blob-storage"
+version = "0.1.0"
+description = ""
+authors = ["alex <devkral@web.de>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "dbstorage"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+django = ">=3.2"
+
+[tool.poetry.group.dev.dependencies]
+tox = ">=4"
+
+[tool.black]
+line-length = 79
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,23 +1,27 @@
 from django.db import models
-from six import python_2_unicode_compatible
+from django.utils import timezone
+from django.db.models.functions import Length
 
 
-@python_2_unicode_compatible
+class DBFileManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().annotate(size=Length("content"))
+
+
 class DBFile(models.Model):
-
     content = models.BinaryField(editable=False)
     name = models.CharField(max_length=255, unique=True)
-    size = models.IntegerField(default=0)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    accessed_on = models.DateTimeField(default=timezone.now)
+
+    objects = DBFileManager()
+
+    # size is now a virtual field
 
     class Meta:
-        db_table = 'db_file'
-        verbose_name = 'DB file'
+        db_table = "db_file"
+        verbose_name = "DB file"
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        self.size = len(self.content)
-        super(DBFile, self).save(*args, **kwargs)
