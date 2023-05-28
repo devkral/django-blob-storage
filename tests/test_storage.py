@@ -14,6 +14,8 @@ from dbstorage.storage import DBStorage
 
 class DBStorageTests(TestCase):
     storage_class = DBStorage
+    current_db = settings.DJANGO_DBFILE_DB
+    databases = {"default", "test"}
 
     def setUp(self):
         self.storage = self.storage_class("/test_media_url/")
@@ -32,7 +34,9 @@ class DBStorageTests(TestCase):
         f = ContentFile(b"storage contents")
         self.storage.save("storage_test", f)
         self.assertEqual(self.storage.size("storage_test"), 16)
-        self.assertNumQueries(1, self.storage.size, "storage_test")
+        self.assertNumQueries(
+            1, self.storage.size, "storage_test", using=self.current_db
+        )
 
         f = self.storage.open("storage_test")
         self.assertEqual(f.read(), b"storage contents")
@@ -52,7 +56,9 @@ class DBStorageTests(TestCase):
         self.assertNotEqual(ctime1, ctime2)
 
         self.assertEqual(DBFile.objects.get(name=name).accessed_on, ctime2)
-        self.assertNumQueries(1, self.storage.accessed_time, name)
+        self.assertNumQueries(
+            1, self.storage.accessed_time, name, using=self.current_db
+        )
 
     @override_settings(DJANGO_DBFILE_TRACK_ACCESSED=False)
     def test_accessed_time_notracking(self):
@@ -66,7 +72,9 @@ class DBStorageTests(TestCase):
         self.assertEqual(ctime1, ctime2)
 
         self.assertEqual(DBFile.objects.get(name=name).accessed_on, ctime2)
-        self.assertNumQueries(1, self.storage.accessed_time, name)
+        self.assertNumQueries(
+            1, self.storage.accessed_time, name, using=self.current_db
+        )
 
     def test_file_created_time(self):
         name = "test.file"
@@ -78,7 +86,9 @@ class DBStorageTests(TestCase):
             timezone.now() - self.storage.created_time(name),
             timedelta(seconds=1),
         )
-        self.assertNumQueries(1, self.storage.created_time, name)
+        self.assertNumQueries(
+            1, self.storage.created_time, name, using=self.current_db
+        )
 
     def test_file_modified_time(self):
         name = "test.file"
@@ -90,7 +100,9 @@ class DBStorageTests(TestCase):
             timezone.now() - self.storage.modified_time(name),
             timedelta(seconds=1),
         )
-        self.assertNumQueries(1, self.storage.modified_time, name)
+        self.assertNumQueries(
+            1, self.storage.modified_time, name, using=self.current_db
+        )
 
     @override_settings(USE_TZ=False)
     def test_file_created_time_tz_disabled(self):

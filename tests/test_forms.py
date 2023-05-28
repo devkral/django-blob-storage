@@ -6,6 +6,8 @@ from dbstorage.models import DBFile
 
 
 class DBFileFormTests(TestCase):
+    databases = {"default", "test"}
+
     def test_save(self):
         form = DBFileForm(
             data={"name": "hello-world.txt"},

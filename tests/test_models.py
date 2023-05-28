@@ -4,6 +4,8 @@ from dbstorage.models import DBFile
 
 
 class DBFileTests(TestCase):
+    databases = {"default", "test"}
+
     def test_db_file_save(self):
         content = b"Hello World!"
         name = "my-files/hello-world.txt"

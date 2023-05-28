@@ -5,7 +5,8 @@ from dbstorage.apps import DBStorageConfig
 
 
 class DBStorageConfigTests(TestCase):
+    databases = {"default", "test"}
 
     def test_app_config(self):
-        config = DBStorageConfig('dbstorage', dbstorage)
-        self.assertEqual(config.verbose_name, 'DB Storage')
+        config = DBStorageConfig("dbstorage", dbstorage)
+        self.assertEqual(config.verbose_name, "DB Storage")
