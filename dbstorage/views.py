@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
 from django.views.generic.base import View
 from django.views.static import was_modified_since
+from django.core.files.base import ContentFile
 
 from dbstorage.models import DBFile
 
@@ -32,7 +33,7 @@ class DBFileView(View):
         content_type, encoding = mimetypes.guess_type(db_file.name)
         content_type = content_type or "application/octet-stream"
 
-        response = FileResponse(db_file.content, content_type=content_type)
+        response = FileResponse(ContentFile(db_file.content), content_type=content_type)
         response["Last-Modified"] = http_date(mtime)
         response["Content-Length"] = db_file.size
         if encoding:
